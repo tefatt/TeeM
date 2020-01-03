@@ -30,7 +30,7 @@ class UserModel(BaseModel, AbstractUser):
     phone_regex = RegexValidator(regex=r'^\+?\d{9,15}$',
                                  message="Phone number format is e.g.: '+999999999'. Up to 15 digits allowed.")
     id = models.AutoField(primary_key=True)
-    native_language = models.ForeignKey(LanguageModel, null=True)
+    native_language = models.ForeignKey(LanguageModel, null=True, on_delete=models.DO_NOTHING)
     birth_date = models.DateField(null=True, blank=True)
     gender = models.IntegerField(choices=GENDER_TYPES, default=MALE)
     other_languages = models.ManyToManyField(LanguageModel, through='LanguageUserModel', related_name='user_lang')

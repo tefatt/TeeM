@@ -17,8 +17,8 @@ DIFFICULTY_TYPES = (
 
 class TestSheetModel(BaseModel):
     name = models.CharField(max_length=20)
-    author = models.ForeignKey(UserModel)
-    classroom = models.ForeignKey(ClassroomModel)
+    author = models.ForeignKey(UserModel, on_delete=models.DO_NOTHING)
+    classroom = models.ForeignKey(ClassroomModel, on_delete=models.DO_NOTHING)
     difficulty = models.IntegerField(choices=DIFFICULTY_TYPES, default=MEDIUM)
 
     class Meta:

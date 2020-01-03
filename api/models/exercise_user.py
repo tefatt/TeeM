@@ -3,8 +3,8 @@ from api.models import BaseModel, UserModel, ExerciseModel
 
 
 class ExerciseUserModel(BaseModel):
-    exercise = models.ForeignKey(ExerciseModel)
-    user = models.ForeignKey(UserModel, related_name='exercise_user')
+    exercise = models.ForeignKey(ExerciseModel, on_delete=models.DO_NOTHING)
+    user = models.ForeignKey(UserModel, related_name='exercise_user', on_delete=models.DO_NOTHING)
     achieved_score = models.PositiveIntegerField(default=0)
 
     class Meta:

@@ -18,8 +18,8 @@ PROFICIENCY_LEVELS = (
 
 
 class LanguageUserModel(BaseModel):
-    user = models.ForeignKey(UserModel)
-    language = models.ForeignKey(LanguageModel)
+    user = models.ForeignKey(UserModel, on_delete=models.DO_NOTHING)
+    language = models.ForeignKey(LanguageModel, on_delete=models.DO_NOTHING)
     level = models.IntegerField(choices=PROFICIENCY_LEVELS)
 
     class Meta:

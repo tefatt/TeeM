@@ -66,6 +66,19 @@ class UserListCreate(ListCreateAPIView):
             queryset = queryset.filter(id=user_id)
         return queryset
 
+class ExerciseListCreate(ListCreateAPIView):
+    queryset = ExerciseModel.objects.all()
+    serializer_class = ExerciseSerializer
+    # permission_classes = [IsAdminUser]
+
+    def create(self, request, *args, **kwargs):
+        try:
+            serializer = ExerciseSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as ex:
+            pass
 
 class ExerciseRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     """

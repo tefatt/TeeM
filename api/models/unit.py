@@ -3,8 +3,8 @@ from api.models import BaseModel, UserModel, ClassroomModel
 
 
 class UnitModel(BaseModel):
-    user = models.ForeignKey(UserModel, related_name='unit')
-    classroom = models.ForeignKey(ClassroomModel)
+    user = models.ForeignKey(UserModel, related_name='unit', on_delete=models.DO_NOTHING)
+    classroom = models.ForeignKey(ClassroomModel, on_delete=models.DO_NOTHING)
     score = models.PositiveIntegerField(default=0)
 
     class Meta:
