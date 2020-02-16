@@ -71,7 +71,7 @@ class ExerciseListCreate(ListCreateAPIView):
     queryset = ExerciseModel.objects.all()
     serializer_class = ExerciseSerializer
 
-    # permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser,]
 
     def create(self, request, *args, **kwargs):
         try:
