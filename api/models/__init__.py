@@ -11,3 +11,5 @@ from .test_sheet import TestSheetModel
 from .tutorial import TutorialModel
 from .exercise import ExerciseModel
 from .exercise_user import ExerciseUserModel
+from .question import QuestionModel
+from .answer import AnswerModel
