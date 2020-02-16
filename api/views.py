@@ -57,7 +57,7 @@ class UserListCreate(ListCreateAPIView):
     """
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated,]
 
     def get_queryset(self):
         queryset = UserModel.objects.all()
