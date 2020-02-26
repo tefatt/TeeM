@@ -57,7 +57,7 @@ class UserListCreate(ListCreateAPIView):
     """
     queryset = UserModel.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated, ]
 
     def get_queryset(self):
         queryset = UserModel.objects.all()
@@ -67,11 +67,21 @@ class UserListCreate(ListCreateAPIView):
         return queryset
 
 
+class ExerciseCreateAPIView(CreateAPIView):
+    queryset = ExerciseModel.objects.all()
+    serializer_class = ExerciseSerializer
+
+
 class ExerciseListCreate(ListCreateAPIView):
     queryset = ExerciseModel.objects.all()
     serializer_class = ExerciseSerializer
 
     # permission_classes = [IsAdminUser,]
+
+    def get(self, request, *args, **kwargs):
+        qs = ExerciseModel.objects.all()
+        serializer = ExerciseSerializer(qs, many=True)
+        return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         try:

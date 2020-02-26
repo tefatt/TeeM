@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
-    'oauth2_provider',
-    # 'rest_framework_social_oauth2',
+    #'oauth2_provider',
+    'rest_framework_social_oauth2',
     'api'
 ]
 
@@ -50,7 +50,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         # 'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-        'rest_framework_social_oauth2.authentication.SocialAuthentication',
+        # 'rest_framework_social_oauth2.authentication.SocialAuthentication',
     ),
     # 'DEFAULT_RENDERER_CLASSES': (
     #     'drf_ujson.renderers.UJSONRenderer',
@@ -108,8 +108,8 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "teem_api",
-        "USER": "root",
-        "PASSWORD": "root",
+        "USER": "postgres",
+        "PASSWORD": "admin",
         "HOST": "localhost",
         "PORT": "5432",
     }
