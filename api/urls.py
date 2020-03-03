@@ -9,6 +9,7 @@ urlpatterns = format_suffix_patterns([
     re_path(r'^login/$', ObtainToken.as_view()),
     re_path(r'^users/$', UserListCreate.as_view(), name='user-list-create'),
     re_path(r'^exercise/$', ExerciseListCreate.as_view(), name='exercise-list-create'),
-    re_path(r'^exercise/create/$', ExerciseCreateAPIView.as_view(), name='exercise-create')
+    re_path(r'^exercise/create/$', ExerciseCreateAPIView.as_view(), name='exercise-create'),
+    path('exercise/<int:pk>/', ExerciseRetrieveUpdateDestroy.as_view(), name='exercise-list-create')
 
 ])

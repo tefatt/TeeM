@@ -2,6 +2,7 @@ import datetime
 import pytz
 from django.utils import timezone
 from dateutil import tz
+from django.http import HttpResponse
 
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count, F, Case, When, IntegerField, Max, Sum, Avg, Prefetch
@@ -97,7 +98,13 @@ class ExerciseRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     """
     API for retrieving, updating and deleting of a exercise (GET, PUT and DELETE)
     """
-    permission_classes = [IsAuthenticated, ]
+
+    # permission_classes = [IsAuthenticated, ]
+
+    def get(self, request, *args,pk=None, **kwargs):
+        qs = ExerciseModel.objects.get(id=pk)
+        serializer = ExerciseSerializer(qs, many=False)
+        return Response(serializer.data)
 
     def retrieve(self, request, pk=None, **kwargs):
         """
@@ -108,8 +115,8 @@ class ExerciseRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         :return: exercise instance.
         """
         queryset = ExerciseModel.objects.all()
-        campaign = get_object_or_404(queryset, pk=pk)
-        serializer = CampaignSerializer(campaign)
+        exe = get_object_or_404(queryset, pk=pk)
+        serializer = ExerciseSerializer(exe)
         return Response(serializer.data)
 
     def update(self, request, pk=None, **kwargs):
@@ -121,9 +128,9 @@ class ExerciseRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         :return: Updated instance of the exercise.
         """
 
-        campaign = CampaignModel.objects.get(pk=pk)
+        exe = ExerciseModel.objects.get(pk=pk)
 
-        serializer = Ca(campaign, data=request.data)
+        serializer = ExerciseSerializer(exe, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
@@ -137,6 +144,10 @@ class ExerciseRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         :return: HTTP 204 or HTTP 404.
         """
 
-        campaign = CampaignModel.objects.get(pk=pk)
-        campaign.delete()
+
+        try:
+            exe = ExerciseModel.objects.get(id=pk)
+            exe.delete()
+        except:
+            return HttpResponse("COuldn't find Exe model")
         return Response(status=status.HTTP_204_NO_CONTENT)
