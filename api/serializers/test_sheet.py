@@ -5,8 +5,8 @@ from api.serializers.exercise import ExerciseSerializer
 
 
 class TestSheetSerializer(serializers.ModelSerializer):
-    exercise = ExerciseSerializer(many=True)
-    tutorial = TutorialSerializer(many=True)
+    exercise = ExerciseSerializer(many=True, read_only=False)
+    tutorial = TutorialSerializer(many=True, read_only=False)
 
     def create(self, validated_data):
         tutorial_data = validated_data.pop('tutorial')
@@ -29,13 +29,6 @@ class TestSheetSerializer(serializers.ModelSerializer):
         tutorials_data = validated_data.pop('tutorial')
         exercises_data = validated_data.pop('exercise')
 
-        exercises = (instance.exercise).all()
-        exercises = list(exercises)
-        exercise_instance = ExerciseModel.objects.get(test_sheet_id=instance.id)
-
-        tutorials = (instance.tutorial).all()
-        tutorials = list(tutorials)
-
         instance.author_id = validated_data.get('author_id', instance.author_id)
         instance.classroom_id = validated_data.get('classroom_id', instance.classroom_id)
         instance.name = validated_data.get('name', instance.name)
@@ -43,37 +36,32 @@ class TestSheetSerializer(serializers.ModelSerializer):
         instance.save()
 
         for tutorial_data in tutorials_data:
-            tutorial = tutorials.pop(0)
+            tutorial = TutorialModel.objects.get(id=tutorial_data['id'])
             tutorial.name = tutorial_data.get('name', tutorial.name)
             tutorial.content = tutorial_data.get('content', tutorial.content)
             tutorial.save()
 
         for exercise_data in exercises_data:
             questions_data = exercise_data.pop('questions')
-            questions = exercise_instance.questions.all()
-            questions = list(questions)
-            question_instance = QuestionModel.objects.get(exercise_id=exercise_instance.id)
-            exercise = exercises.pop(0)
+
+            exercise = ExerciseModel.objects.get(id=exercise_data['id'])
             exercise.name = exercise_data.get('name', exercise.name)
             exercise.material_url = exercise_data.get('material_url', exercise.material_url)
             exercise.save()
 
-            for q in questions_data:
-                answer_data = q.pop('answer')
-                answers = question_instance.answer.all()
-                answers = list(answers)
+            for question_data in questions_data:
+                answers_data = question_data.pop('answer')
 
-                question = questions.pop(0)
-                question.name = q.get('name', question.name)
-                question.time_point = q.get('time_point', question.time_point)
-                question.max_score = q.get('max_score', question.max_score)
+                question = QuestionModel.objects.get(id=question_data['id'])
+                question.name = question_data.get('name', question.name)
+                question.time_point = question_data.get('time_point', question.time_point)
+                question.max_score = question_data.get('max_score', question.max_score)
                 question.save()
 
-                for a in answer_data:
-                    # answers = AnswerModel.objects.filter(question_id=question_instance.id)
-                    answer = answers.pop(0)
-                    answer.name = a.get('name', answer.name)
-                    answer.is_correct = a.get('is_correct', answer.is_correct)
+                for answer_data in answers_data:
+                    answer = AnswerModel.objects.get(id=answer_data['id'])
+                    answer.name = answer_data.get('name', answer.name)
+                    answer.is_correct = answer_data.get('is_correct', answer.is_correct)
                     answer.save()
 
         return instance

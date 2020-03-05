@@ -11,4 +11,5 @@ class AnswerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AnswerModel
-        fields = ('name', 'is_correct')
+        fields = ('id', 'name', 'is_correct')
+        extra_kwargs = {'id': {'read_only': False}}

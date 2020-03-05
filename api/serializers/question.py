@@ -5,7 +5,7 @@ from api.serializers import AnswerSerializer
 
 
 class QuestionSerializer(serializers.ModelSerializer):
-    answer = AnswerSerializer(many=True)
+    answer = AnswerSerializer(many=True, read_only=False)
     name = serializers.CharField()
     time_point = serializers.FloatField()
 
@@ -15,3 +15,4 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionModel
         fields = ('id', 'name', 'answer', 'time_point', 'max_score')
+        extra_kwargs = {'id': {'read_only': False}}

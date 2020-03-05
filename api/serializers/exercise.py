@@ -7,7 +7,7 @@ from api.serializers import QuestionSerializer, LanguageSerializer
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
-    questions = QuestionSerializer(many=True)
+    questions = QuestionSerializer(many=True, read_only=False)
     # test_sheet = TestSheetSerializer(many=False)
 
     '''def create(self, validated_data):
@@ -41,3 +41,4 @@ class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExerciseModel
         fields = ('id', 'name', 'questions', 'material_url')
+        extra_kwargs = {'id': {'read_only': False}}
