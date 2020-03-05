@@ -36,33 +36,22 @@ class TestSheetSerializer(serializers.ModelSerializer):
         instance.save()
 
         for tutorial_data in tutorials_data:
-            tutorial = TutorialModel.objects.get(id=tutorial_data['id'])
-            tutorial.name = tutorial_data.get('name', tutorial.name)
-            tutorial.content = tutorial_data.get('content', tutorial.content)
-            tutorial.save()
+            tutorial = TutorialModel.objects.filter(id=tutorial_data['id'])
+            tutorial.update(**tutorial_data)
 
         for exercise_data in exercises_data:
             questions_data = exercise_data.pop('questions')
-
-            exercise = ExerciseModel.objects.get(id=exercise_data['id'])
-            exercise.name = exercise_data.get('name', exercise.name)
-            exercise.material_url = exercise_data.get('material_url', exercise.material_url)
-            exercise.save()
+            exercise = ExerciseModel.objects.filter(id=exercise_data['id'])
+            exercise.update(**exercise_data)
 
             for question_data in questions_data:
                 answers_data = question_data.pop('answer')
-
-                question = QuestionModel.objects.get(id=question_data['id'])
-                question.name = question_data.get('name', question.name)
-                question.time_point = question_data.get('time_point', question.time_point)
-                question.max_score = question_data.get('max_score', question.max_score)
-                question.save()
+                question = QuestionModel.objects.filter(id=question_data['id'])
+                question.update(**question_data)
 
                 for answer_data in answers_data:
-                    answer = AnswerModel.objects.get(id=answer_data['id'])
-                    answer.name = answer_data.get('name', answer.name)
-                    answer.is_correct = answer_data.get('is_correct', answer.is_correct)
-                    answer.save()
+                    answer = AnswerModel.objects.filter(id=answer_data['id'])
+                    answer.update(**answer_data)
 
         return instance
 

@@ -8,4 +8,6 @@ class TutorialSerializer(serializers.ModelSerializer):
         model = TutorialModel
         fields = ['id', 'name', 'content', 'test_sheet_id']
 
-        extra_kwargs = {'id': {'read_only': False}}
+        extra_kwargs = {'id': {'read_only': False},
+                        'test_sheet_id': {'read_only': False}
+                        }
