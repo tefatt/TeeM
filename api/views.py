@@ -17,6 +17,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIV
 
 from api.models import *
 from api.serializers import *
+from api.serializers.tutorial import TutorialSerializer
 from api.user_helpers import UserHelpers
 
 
@@ -68,25 +69,20 @@ class UserListCreate(ListCreateAPIView):
         return queryset
 
 
-class ExerciseCreateAPIView(CreateAPIView):
-    queryset = ExerciseModel.objects.all()
-    serializer_class = ExerciseSerializer
-
-
-class ExerciseListCreate(ListCreateAPIView):
-    queryset = ExerciseModel.objects.all()
-    serializer_class = ExerciseSerializer
+class TestSheetListCreateView(ListCreateAPIView):
+    queryset = TestSheetModel.objects.all()
+    serializer_class = TestSheetSerializer
 
     # permission_classes = [IsAdminUser,]
 
     def get(self, request, *args, **kwargs):
-        qs = ExerciseModel.objects.all()
-        serializer = ExerciseSerializer(qs, many=True)
+        qs = TestSheetModel.objects.all()
+        serializer = TestSheetSerializer(qs, many=True)
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         try:
-            serializer = ExerciseSerializer(data=request.data)
+            serializer = TestSheetSerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
@@ -94,16 +90,16 @@ class ExerciseListCreate(ListCreateAPIView):
             raise ex
 
 
-class ExerciseRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
+class TestSheetRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     """
-    API for retrieving, updating and deleting of a exercise (GET, PUT and DELETE)
+        API for retrieving, updating and deleting of a testsheet (GET, PUT and DELETE)
     """
 
     # permission_classes = [IsAuthenticated, ]
 
-    def get(self, request, *args,pk=None, **kwargs):
-        qs = ExerciseModel.objects.get(id=pk)
-        serializer = ExerciseSerializer(qs, many=False)
+    def get(self, request, *args, pk=None, **kwargs):
+        qs = TestSheetModel.objects.get(id=pk)
+        serializer = TestSheetSerializer(qs, many=False)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None, **kwargs):
@@ -114,9 +110,9 @@ class ExerciseRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         :param kwargs: keywords arguments.
         :return: exercise instance.
         """
-        queryset = ExerciseModel.objects.all()
+        queryset = TestSheetModel.objects.all()
         exe = get_object_or_404(queryset, pk=pk)
-        serializer = ExerciseSerializer(exe)
+        serializer = TestSheetSerializer(exe)
         return Response(serializer.data)
 
     def update(self, request, pk=None, **kwargs):
@@ -128,9 +124,9 @@ class ExerciseRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         :return: Updated instance of the exercise.
         """
 
-        exe = ExerciseModel.objects.get(pk=pk)
+        testsheet = TestSheetModel.objects.get(pk=pk)
 
-        serializer = ExerciseSerializer(exe, data=request.data)
+        serializer = TestSheetSerializer(testsheet, data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             return Response(serializer.data)
@@ -144,9 +140,8 @@ class ExerciseRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
         :return: HTTP 204 or HTTP 404.
         """
 
-
         try:
-            exe = ExerciseModel.objects.get(id=pk)
+            exe = TestSheetModel.objects.get(id=pk)
             exe.delete()
         except:
             return HttpResponse("COuldn't find Exe model")

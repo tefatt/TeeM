@@ -8,7 +8,7 @@ class TutorialModel(BaseModel):
     #     return 'user_{0}/{1}'.format(self.test_sheet.author.id, filename)
 
     name = models.CharField(max_length=30)
-    test_sheet = models.ForeignKey(TestSheetModel, on_delete=models.DO_NOTHING)
+    test_sheet = models.ForeignKey(TestSheetModel, on_delete=models.DO_NOTHING, related_name='tutorial')
     content = models.TextField()
     # mp3 = models.FileField(upload_to=user_directory_path)
     public = models.BooleanField(default=False, help_text="Does the author want this object to be publicly accessible")

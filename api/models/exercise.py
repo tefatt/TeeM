@@ -38,7 +38,7 @@ class ExerciseModel(BaseModel):
     #     return 'user_{0}/{1}'.format(self.test_sheet.author.id, filename)
 
     name = models.CharField(max_length=30)
-    test_sheet = models.ForeignKey(TestSheetModel, on_delete=models.DO_NOTHING)
+    test_sheet = models.ForeignKey(TestSheetModel, on_delete=models.DO_NOTHING, related_name='exercise')
     media = models.IntegerField(choices=MEDIA_FORMATS, default=TEXT)
     type = models.IntegerField(choices=EXERCISE_TYPES, default=TRUE_FALSE)
     # questions = models.ForeignKey(QuestionModel, on_delete=models.CASCADE)

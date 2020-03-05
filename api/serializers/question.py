@@ -14,4 +14,4 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = QuestionModel
-        fields = ('name', 'answer', 'time_point','max_score')
+        fields = ('id', 'name', 'answer', 'time_point', 'max_score')
